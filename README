@@ -1,0 +1,8 @@
+Usage: lesswatcher (path to watch)
+
+lesswatcher watches a directory (and its subdirs)
+for changed .less files. Relies on rb-inotify. 
+And obviously you need lessc installed.
+
+If you don't specify a path, it assumes you're
+working on Rails and watches public/stylesheets.
