@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'rb-inotify'
+require 'find'
+
+notifier = INotify::Notifier.new
+watch_path = ARGV[0] || File.expand_path("~/code/coupa_development/public/stylesheets")
+puts "Watching #{watch_path} for .less files"
+notifier.watch(watch_path, :moved_to, :create) do |event|
+  if File.extname(event.name) == '.less'
+	output_name = event.absolute_name.sub(/less$/, 'css')
+	puts "#{event.name} changed, compiling to #{output_name}"
+	puts %x[lessc #{event.absolute_name} #{output_name}]
+  end
+end
+
+notifier.run
